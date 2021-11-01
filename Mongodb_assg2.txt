@@ -1,0 +1,107 @@
+Atlanta Population
+=============
+
+1. Use db.zipcodes.find() to filter results to only the results where city is ATLANTA
+and state is GA.
+ db.zipcodes.find( { $and: [ { city:  'ATLANTA'  }, { state: 'GA'  } ] } )
+
+2. Use db.zipcodes.aggregate with $match to do the same as above.
+db.zipcodes.aggregate( [ { $match: { $and: [ { city:  'ATLANTA'  }, { state: 'GA'  } ] } } ] )
+
+3. Use $group to count the number of zip codes in Atlanta.
+db.zipcodes.aggregate( [ 
+        {$match: { city: 'ATLANTA'}},
+        {$group: { _id: '$_id'} },
+        { $count: 'unique_Zipcodes'}
+    ])
+    
+    db.zipcodes.aggregate( [ 
+        {$match: { city: 'ATLANTA'}},
+        {$group: { _id: '$_id'} }
+    ]).itcount()
+    
+
+    db.zipcodes.aggregate( [ 
+        {$match: { city: 'ATLANTA'}},
+        {$group: { _id: '$_id'} }
+    ]).toArray().length
+
+
+4. Use $group to find the total population in Atlanta.
+db.zipcodes.aggregate( [ 
+        {$match: { city: 'ATLANTA'}},
+        { $group: { _id : 'city' ,totalPopulationInAtlanta:{ $sum:'$pop' } } }
+    ])
+
+
+
+Populations by State
+===============
+
+1. Use aggregate to calculate the total population for each state.
+db.zipcodes.aggregate( [ 
+        { $group: { _id : '$state' ,totalPopulation:{ $sum:'$pop' } } }
+    ])
+
+2. Sort the results by population, highest first.
+db.zipcodes.aggregate( [ 
+        { $group: { _id : '$state' ,totalPopulation:{ $sum:'$pop' } } },
+        { $sort : { totalPopulation: -1 } }
+    ])
+
+3. Limit the results to just the first 3 results. What are the top 3 states in
+population?
+db.zipcodes.aggregate( [ 
+        { $group: { _id : '$state' ,totalPopulation:{ $sum:'$pop' } } },
+        { $sort : { totalPopulation: -1 } },
+        { $limit: 3 }
+])
+
+
+Populations by City
+==============
+
+1. Use aggregate to calculate the total population for each city (you have to use
+city/state combination). You can use a combination for the _id of the $group: {
+city: '$city', state: '$state' }
+db.zipcodes.aggregate( [ 
+    { $group: { _id : { city: '$city' , state: '$state'} ,
+                totalPopulation:{ $sum:'$pop' } } }
+    ])
+
+
+2. Sort the results by population, highest first.
+db.zipcodes.aggregate( [ 
+        { $group: { _id : { city: '$city' , state: '$state'} ,
+                totalPopulation:{ $sum:'$pop' } } },
+        { $sort : { totalPopulation: -1 } }
+    ])
+
+
+3. Limit the results to just the first 3 results. What are the top 3 cities in
+population?
+db.zipcodes.aggregate( [ 
+        { $group: { _id : { city: '$city' , state: '$state'} ,
+                totalPopulation:{ $sum:'$pop' } } },
+        { $sort : { totalPopulation: -1 } },
+        { $limit: 3 }
+    ])
+
+4. What are the top 3 cities in population in Texas?
+db.zipcodes.aggregate( [ 
+        { $group: { _id : { city: '$city' , state: '$state'} ,
+                totalPopulation:{ $sum:'$pop' } } },
+        { $match: { '_id.state': 'TX' } },
+        { $sort : { totalPopulation: -1 } },
+        { $limit: 3 }
+    ])
+
+
+Bonus
+=====
+
+1. Write a query to get the average city population for each state. 
+db.zipcodes.aggregate([{$group:{_id:{state:'$state',city:'$city'},Avgpop:{$avg:'$pop'}}}])
+
+2. What are the top 3 states in terms of average city population?
+db.zipcodes.aggregate([{$group:{_id:{state:'$state',city:'$city'},Avgpop:{$avg:'$pop'}}},{$sort:{Avgpop:-1}},{$limit:3}])
