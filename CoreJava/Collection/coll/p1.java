@@ -7,9 +7,9 @@ public class p1{
 
 	public static void main(String[] args) {
 		Set<Employee> emp=new HashSet<>();
-		emp.add(new Employee(101,"Shuaib","Developer",21000));
-		emp.add(new Employee(11,"Mani","Tester",15000));
-		emp.add(new Employee(18,"Prince","HR",17000));
+		emp.add(new Employee(001,"Aayushi","Singer",15000));
+		emp.add(new Employee(002,"Akash","Developer",50000));
+		emp.add(new Employee(003,"Divyanshu","Youtuber",100000));
 		
 		for(Employee e : emp)
 		{
