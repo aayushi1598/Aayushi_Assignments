@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- This Is For Address Class -->
+  <bean class="que1.Address" name="address">
+      <property name = "street" value="SuratGanj"/>
+      <property name = "city" value="Madhubani"/>
+      <property name = "state" value="Bihar"/>
+      <property name = "zip" value="847211"/>
+      <property name = "country" value="India"/>
+  </bean>
+ <!-- This Is For Customer Class -->
+  <bean class="que1.Customer" name="customer1">
+      <property name = "customerId" value="1001"/>
+      <property name = "customerName" value="Aayushi"/>
+      <property name = "customerContact" value="7903221171"/>
+      <property name = "address">
+           <ref bean= "address" />
+           </property>
+  </bean>
+ 
+</beans>
