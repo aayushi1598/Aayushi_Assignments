@@ -13,5 +13,6 @@
 	<classpathentry kind="src" path="OOP"/>
 	<classpathentry kind="src" path="Collection"/>
 	<classpathentry kind="src" path="Lambda"/>
+	<classpathentry kind="src" path="Annotations"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
